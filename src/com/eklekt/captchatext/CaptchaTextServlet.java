@@ -4,26 +4,21 @@ package com.eklekt.captchatext;
 import java.io.IOException;
 import javax.servlet.http.*;
 import nl.captcha.Captcha;
-import nl.captcha.gimpy.*;
+import nl.captcha.backgrounds.SquigglesBackgroundProducer;
 import nl.captcha.servlet.CaptchaServletUtil;
 
 @SuppressWarnings("serial")
 public class CaptchaTextServlet extends HttpServlet {
-	
-	
-	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		//resp.setContentType("text/plain");
-		//resp.getWriter().println("Hello, world");
-		
-		Captcha captcha = new Captcha.Builder(200, 50)
-        .addText(new CustomizableTextProducer("captcha"))
+		String text = req.getParameter("text");
+		Captcha captcha = new Captcha.Builder((25*text.length()), 50)
+        .addText(new CustomizableTextProducer(text))
+        //.addNoise()
         .gimp()
-        .addNoise()
-        .addNoise()
-        .addNoise()
-        .addBackground()
+        //.addBackground(new SquigglesBackgroundProducer())
+        //.addNoise()
+        //.addNoise()
         .build();
        CaptchaServletUtil.writeImage(resp, captcha.getImage());
 	}

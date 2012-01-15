@@ -13,6 +13,4 @@ public class CustomizableTextProducer implements TextProducer {
 		return this.word;
 	}
 
-	
-	
 }
